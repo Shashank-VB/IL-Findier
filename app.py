@@ -3,8 +3,22 @@ import pandas as pd
 
 def filter_by_link_sections_and_lane(df, link_sections):
     filtered_df = df[df['Link section'].isin(link_sections)]
-    filtered_df = filtered_df.drop_duplicates(subset=['Link section', 'Lane', 'Site category', 'IL Value'])
-    return filtered_df
+    
+    # Identify duplicates across lanes
+    duplicates = filtered_df.duplicated(subset=['Link section', 'Site category', 'IL Value'], keep=False)
+    
+    # Separate duplicates and non-duplicates
+    duplicates_df = filtered_df[duplicates]
+    non_duplicates_df = filtered_df[~duplicates]
+    
+    # For duplicates, keep only those with Lane 'CL1' and mark as 'all lanes'
+    duplicates_df = duplicates_df[duplicates_df['Lane'] == 'CL1']
+    duplicates_df['Lane'] = 'all lanes'
+    
+    # Combine the dataframes
+    final_filtered_df = pd.concat([non_duplicates_df, duplicates_df]).drop_duplicates()
+    
+    return final_filtered_df
 
 # Streamlit app
 st.title('Filter CSV Data by Link Section and Lane')
