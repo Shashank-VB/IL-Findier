@@ -3,6 +3,7 @@ import pandas as pd
 
 def filter_by_link_sections(df, link_sections):
     filtered_df = df[df['Link section'].isin(link_sections)]
+    filtered_df = filtered_df.drop_duplicates(subset=['Link section', 'Site category', 'IL Value'])
     return filtered_df
 
 # Streamlit app
