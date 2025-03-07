@@ -1,13 +1,13 @@
 import streamlit as st
 import pandas as pd
 
-def filter_by_link_sections(df, link_sections):
+def filter_by_link_sections_and_lane(df, link_sections):
     filtered_df = df[df['Link section'].isin(link_sections)]
-    filtered_df = filtered_df.drop_duplicates(subset=['Link section', 'Site category', 'IL Value'])
+    filtered_df = filtered_df.drop_duplicates(subset=['Link section', 'Lane', 'Site category', 'IL Value'])
     return filtered_df
 
 # Streamlit app
-st.title('Filter CSV Data by Link Section')
+st.title('Filter CSV Data by Link Section and Lane')
 
 # File uploader for the main CSV file
 uploaded_file = st.file_uploader('Upload your main CSV file', type='csv')
@@ -33,7 +33,7 @@ if uploaded_file is not None and link_sections_file is not None:
     st.write(link_sections_df)
     
     # Filter the dataframe
-    filtered_df = filter_by_link_sections(df, link_sections)
+    filtered_df = filter_by_link_sections_and_lane(df, link_sections)
     
     # Display the filtered dataframe
     st.write('Filtered Dataframe:')
