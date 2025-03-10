@@ -37,7 +37,7 @@ if uploaded_file is not None and link_sections_file is not None:
     link_sections_df = pd.read_csv(link_sections_file)
     
     # Extract the Link sections from the Link sections CSV file
-    link_sections = link_sections_df.iloc[:, 0].tolist()
+    link_sections = link_sections_df.iloc[:, 1].tolist()
     
     # Display the dataframes
     st.write('Main Dataframe:')
