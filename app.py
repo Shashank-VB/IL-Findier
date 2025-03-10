@@ -36,46 +36,31 @@ if uploaded_file is not None and link_sections_file is not None:
     # Read the Link sections CSV file
     link_sections_df = pd.read_csv(link_sections_file)
     
-    # Ensure the Link sections CSV file has the correct columns
-    if 'Site number' not in link_sections_df.columns or 'Link section' not in link_sections_df.columns:
-        st.error("The Link sections CSV file must contain 'Site number' and 'Link section' columns.")
-    else:
-        # Extract the Link sections from the Link sections CSV file
-        link_sections = link_sections_df['Link section'].tolist()
-        
-        # Display the dataframes
-        st.write('Main Dataframe:')
-        st.write(df)
-        
-        st.write('Link Sections Dataframe:')
-        st.write(link_sections_df)
-        
-        # Filter the dataframe
-        filtered_df = filter_by_link_sections_and_lane(df, link_sections)
-        
-        # Merge the filtered dataframe with the Link sections dataframe to include site numbers
-        filtered_df = filtered_df.merge(link_sections_df, on='Link section', how='left').drop_duplicates()
-        
-        # Display the columns of the filtered dataframe for debugging
-        st.write('Columns in Filtered Dataframe:')
-        st.write(filtered_df.columns)
-        
-        # Reorder columns to have 'Site number' as the first column
-        if 'Site number' in filtered_df.columns:
-            columns_order = ['Site number'] + [col for col in filtered_df.columns if col != 'Site number']
-            filtered_df = filtered_df[columns_order]
-        else:
-            st.error("'Site number' column not found in the filtered dataframe.")
-        
-        # Display the filtered dataframe
-        st.write('Filtered Dataframe:')
-        st.write(filtered_df)
-        
-        # Download the filtered dataframe as a CSV file
-        csv = filtered_df.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="Download Filtered Data as CSV",
-            data=csv,
-            file_name='IL_Sitecategory.csv',
-            mime='text/csv',
-        )
+    # Extract the Link sections from the Link sections CSV file
+    link_sections = link_sections_df.iloc[:, 1].tolist()
+    
+    # Display the dataframes
+    st.write('Main Dataframe:')
+    st.write(df)
+    
+    st.write('Link Sections Dataframe:')
+    st.write(link_sections_df)
+    
+    # Filter the dataframe
+    filtered_df = filter_by_link_sections_and_lane(df, link_sections)
+    
+    # Merge the filtered dataframe with the Link sections dataframe to include site numbers
+    filtered_df = filtered_df.merge(link_sections_df, on='Link section', how='left').drop_duplicates()
+    
+    # Display the filtered dataframe
+    st.write('Filtered Dataframe:')
+    st.write(filtered_df)
+    
+    # Download the filtered dataframe as a CSV file
+    csv = filtered_df.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="Download Filtered Data as CSV",
+        data=csv,
+        file_name='IL_Sitecategory.csv',
+        mime='text/csv',
+    )
