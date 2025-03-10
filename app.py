@@ -52,9 +52,16 @@ if uploaded_file is not None and link_sections_file is not None:
     # Merge the filtered dataframe with the Link sections dataframe to include site numbers
     filtered_df = filtered_df.merge(link_sections_df, on='Link section', how='left').drop_duplicates()
     
+    # Display the columns of the filtered dataframe for debugging
+    st.write('Columns in Filtered Dataframe:')
+    st.write(filtered_df.columns)
+    
     # Reorder columns to have 'Site number' as the first column
-    columns_order = ['Site number'] + [col for col in filtered_df.columns if col != 'Site number']
-    filtered_df = filtered_df[columns_order]
+    if 'Site number' in filtered_df.columns:
+        columns_order = ['Site number'] + [col for col in filtered_df.columns if col != 'Site number']
+        filtered_df = filtered_df[columns_order]
+    else:
+        st.error("'Site number' column not found in the filtered dataframe.")
     
     # Display the filtered dataframe
     st.write('Filtered Dataframe:')
