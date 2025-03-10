@@ -49,6 +49,9 @@ if uploaded_file is not None and link_sections_file is not None:
     # Filter the dataframe
     filtered_df = filter_by_link_sections_and_lane(df, link_sections)
     
+    # Merge the filtered dataframe with the Link sections dataframe to include site numbers
+    filtered_df = filtered_df.merge(link_sections_df, on='Link section', how='left').drop_duplicates()
+    
     # Display the filtered dataframe
     st.write('Filtered Dataframe:')
     st.write(filtered_df)
