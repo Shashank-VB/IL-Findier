@@ -52,10 +52,6 @@ if uploaded_file is not None and link_sections_file is not None:
     # Merge the filtered dataframe with the Link sections dataframe to include site numbers
     filtered_df = filtered_df.merge(link_sections_df, on='Link section', how='left').drop_duplicates()
     
-    # Reorder columns to have 'Site number' as the first column
-    columns_order = ['Site number'] + [col for col in filtered_df.columns if col != 'Site number']
-    filtered_df = filtered_df[columns_order]
-    
     # Display the filtered dataframe
     st.write('Filtered Dataframe:')
     st.write(filtered_df)
