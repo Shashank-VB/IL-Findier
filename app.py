@@ -58,6 +58,6 @@ if uploaded_file is not None and link_sections_file is not None:
     st.download_button(
         label="Download Filtered Data as CSV",
         data=csv,
-        file_name='filtered_data.csv',
+        file_name='IL_Sitecategory.csv',
         mime='text/csv',
     )
