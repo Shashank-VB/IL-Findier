@@ -24,7 +24,7 @@ def filter_by_link_sections_and_lane(df, link_sections):
 st.title('Filter CSV Data by Link Section and Lane')
 
 # File uploader for the main CSV file
-uploaded_file = st.file_uploader('Upload your main CSV file', type='csv')
+uploaded_file = st.file_uploader('Upload SCRIM_IL master sheet', type='csv')
 
 # File uploader for the Link sections CSV file
 link_sections_file = st.file_uploader('Upload your Link sections CSV file', type='csv')
