@@ -46,33 +46,18 @@ if uploaded_file is not None and link_sections_file is not None:
     st.write('Link Sections Dataframe:')
     st.write(link_sections_df)
     
-    # Display columns in the main dataframe
-    st.write('Columns in Main Dataframe:')
-    st.write(df.columns)
+    # Filter the dataframe
+    filtered_df = filter_by_link_sections_and_lane(df, link_sections)
     
-    # Ensure the column names are correct
-    if 'Site number' not in df.columns or 'Link section' not in df.columns:
-        st.error("The main CSV file must contain 'Site number' and 'Link section' columns.")
-    else:
-        # Filter the dataframe
-        filtered_df = filter_by_link_sections_and_lane(df, link_sections)
-        
-        # Display filtered dataframe before merging
-        st.write('Filtered Dataframe before merging:')
-        st.write(filtered_df)
-        
-        # Merge the filtered dataframe with the site numbers
-        filtered_df = filtered_df.merge(df[['Site number', 'Link section']], on='Link section', how='left').drop_duplicates()
-        
-        # Display the filtered dataframe
-        st.write('Filtered Dataframe:')
-        st.write(filtered_df)
-        
-        # Download the filtered dataframe as a CSV file
-        csv = filtered_df.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="Download Filtered Data as CSV",
-            data=csv,
-            file_name='filtered_data.csv',
-            mime='text/csv',
-        )
+    # Display the filtered dataframe
+    st.write('Filtered Dataframe:')
+    st.write(filtered_df)
+    
+    # Download the filtered dataframe as a CSV file
+    csv = filtered_df.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="Download Filtered Data as CSV",
+        data=csv,
+        file_name='filtered_data.csv',
+        mime='text/csv',
+    )
